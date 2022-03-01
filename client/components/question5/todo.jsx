@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { ApiContext } from '../../utils/api_context';
+
 export const Todo = ({ todo }) => {
   const api = useContext(ApiContext);
   const [checkboxChecked, setCheckboxChecked] = useState(todo.isComplete);
@@ -10,6 +11,15 @@ export const Todo = ({ todo }) => {
     // you wont actually need to do anything with the result of the API call
     // because we are optimistically updating the state.
     // When you refresh the page you should see your state persist.
+
+    let checkBoxChange = !checkboxChecked;
+
+    const todoBody = {
+      isComplete: checkBoxChange,
+    };
+    await api.post(`/todos/${todo.id}`, todoBody);
+
+    setCheckboxChecked(checkBoxChange);
   };
 
   return (
